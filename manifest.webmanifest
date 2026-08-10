@@ -1,7 +1,7 @@
 {
   "name": "Agence 1.0 — Portal Agence",
   "short_name": "Agence 1.0",
-  "description": "Portal Agence générique (branding data-driven) — ERP Transfers / Nhalabene",
+  "description": "Portal Agence générique — identité par défaut Nhalabene",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

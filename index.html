@@ -973,10 +973,11 @@ body{font-size:clamp(13px,1.4vw + 10px,15px)}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <link rel="manifest" href="manifest.webmanifest">
-<link id="app-favicon" rel="icon" href="favicon.svg" type="image/svg+xml">
-<link id="app-icon-192" rel="icon" href="icon-192.svg" type="image/svg+xml" sizes="192x192">
-<link id="app-apple-icon" rel="apple-touch-icon" href="icon-180.svg">
-<link id="app-apple-icon-192" rel="apple-touch-icon" sizes="192x192" href="icon-192.svg">
+<link id="app-favicon" rel="icon" href="favicon.svg?v=n" type="image/svg+xml">
+<link id="app-favicon-32" rel="icon" href="favicon-32.svg?v=n" type="image/svg+xml" sizes="32x32">
+<link id="app-icon-192" rel="icon" href="icon-192.svg?v=n" type="image/svg+xml" sizes="192x192">
+<link id="app-apple-icon" rel="apple-touch-icon" href="icon-180.svg?v=n">
+<link id="app-apple-icon-192" rel="apple-touch-icon" sizes="192x192" href="icon-192.svg?v=n">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta id="app-apple-title" name="apple-mobile-web-app-title" content="Agence 1.0">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1034,7 +1035,7 @@ body{font-size:clamp(13px,1.4vw + 10px,15px)}
   </div>
   <div class="login-box">
     <div class="login-logo">
-      <div class="login-emblem" id="logo-triple"><img id="login-logo-img" src="logo-login.svg" alt="Nhalabene" width="160" height="160" decoding="async"></div>
+      <div class="login-emblem" id="logo-triple"><img id="login-logo-img" src="icon-192.svg?v=n" alt="Nhalabene" width="160" height="160" decoding="async"></div>
       <div class="login-brand" id="login-brand-name">Agence 1.0</div>
       <div class="login-sub" id="login-brand-sub">Portal Agence</div>
       <div class="login-badge" id="login-brand-badge">🏨 Portal Agence — générique</div>
@@ -1090,8 +1091,8 @@ body{font-size:clamp(13px,1.4vw + 10px,15px)}
       <button type="button" class="btn-nav-toggle" id="btn-nav-toggle" onclick="toggleNavDrawer()" aria-expanded="false" aria-controls="nav-drawer-panel" aria-label="Menu navigation">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="topbar-logo"><img id="topbar-logo-img" src="logo-topbar.svg" alt="Nhalabene" width="72" height="72" decoding="async"></div>
-      <div class="topbar-title">Agence <em>Ruelas</em> · Portal Agence</div>
+      <div class="topbar-logo"><img id="topbar-logo-img" src="icon-192.svg?v=n" alt="Nhalabene" width="72" height="72" decoding="async"></div>
+      <div class="topbar-title">Agence 1.0 · Portal Agence</div>
       <div class="admin-badge" id="lbl-admin-role">Staff Agence</div>
     </div>
     <div class="topbar-right">
@@ -1136,7 +1137,7 @@ body{font-size:clamp(13px,1.4vw + 10px,15px)}
     <div class="nav-drawer-backdrop" onclick="closeNavDrawer()"></div>
     <div class="nav-drawer-panel" id="nav-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="nav-drawer-title" onclick="event.stopPropagation()">
       <div class="nav-drawer-hdr">
-        <span id="nav-drawer-title">Agence <em>Ruelas</em> · Portal Agence</span>
+        <span id="nav-drawer-title">Agence 1.0 · Portal Agence</span>
         <button type="button" class="nav-drawer-close" onclick="closeNavDrawer()" aria-label="Fechar menu">✕</button>
       </div>
       <div class="nav-drawer-scroll">
@@ -3832,8 +3833,8 @@ function applyOrgBranding(b){
   if(elSub) elSub.textContent=city? (city+' · Portal Agence') : 'Portal Agence';
   if(elBadge) elBadge.textContent='🏨 Portal Agence — '+nom;
   /* Défaut Nhalabene ; sinon URLs fournies à la création (Nhalabene / ORG_AGENCES) */
-  if(elImg){ elImg.src=logoUrl||'logo-login.svg'; elImg.alt=nom||'Nhalabene'; }
-  if(elTop){ elTop.src=logoUrl||'logo-topbar.svg'; elTop.alt=nom||'Nhalabene'; }
+  if(elImg){ elImg.src=logoUrl||'icon-192.svg?v=n'; elImg.alt=nom||'Nhalabene'; }
+  if(elTop){ elTop.src=logoUrl||'icon-192.svg?v=n'; elTop.alt=nom||'Nhalabene'; }
   setAppIcons_(iconUrl||null, nom);
   if(elFoot) elFoot.textContent=nom+(b.email?(' · '+b.email):'');
   try{
@@ -3843,20 +3844,20 @@ function applyOrgBranding(b){
   }catch(e){}
 }
 
-/** Favicon + apple-touch + icon 192 — défaut Nhalabene SVG si pas d’URL agence. */
+/** Favicon + apple-touch + icon 192 — défaut Nhalabene (N) uniquement, jamais Ruelas. */
 function setAppIcons_(url, nom){
-  const fav=url||'favicon.svg';
-  const big=url||'icon-192.svg';
-  const apple=url||'icon-180.svg';
+  const fav=url||'favicon.svg?v=n';
+  const big=url||'icon-192.svg?v=n';
+  const apple=url||'icon-180.svg?v=n';
   const setHref=(id, href)=>{
     const el=document.getElementById(id);
     if(el) el.setAttribute('href', href);
   };
   setHref('app-favicon', fav);
+  setHref('app-favicon-32', url||'favicon-32.svg?v=n');
   setHref('app-icon-192', big);
   setHref('app-apple-icon', apple);
   setHref('app-apple-icon-192', big);
-  /* Force refresh favicon dans certains navigateurs */
   try{
     let dyn=document.getElementById('app-favicon-dyn');
     if(!dyn){
@@ -3865,7 +3866,7 @@ function setAppIcons_(url, nom){
       dyn.rel='shortcut icon';
       document.head.appendChild(dyn);
     }
-    dyn.href=fav+(fav.indexOf('?')>=0?'&':'?')+'v='+Date.now();
+    dyn.href=fav+(String(fav).indexOf('?')>=0?'&':'?')+'t='+Date.now();
   }catch(e){}
 }
 
