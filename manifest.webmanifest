@@ -1,12 +1,12 @@
 {
-  "name": "Nhalabene",
-  "short_name": "Nhalabene",
-  "description": "Nhalabene — accès privé fournisseur",
+  "name": "Agence 1.0 — Portal Agence",
+  "short_name": "Agence 1.0",
+  "description": "Portal Agence générique (branding data-driven) — ERP Transfers / Nhalabene",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0F1117",
-  "theme_color": "#161B27",
+  "background_color": "#E8EEF6",
+  "theme_color": "#E8EEF6",
   "orientation": "any",
   "icons": [
     { "src": "icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
