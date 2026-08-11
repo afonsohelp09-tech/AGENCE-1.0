@@ -355,6 +355,27 @@ html[data-theme="dark"] .acts-dd-menu{background:var(--surface);box-shadow:0 10p
 .sec-sep::after{content:'';flex:1;height:1px;background:var(--border2)}
 .create-flow-hint{font-size:12.5px;line-height:1.45;color:var(--t2,#4a5568);background:rgba(27,79,114,.06);border:1px solid rgba(27,79,114,.14);border-radius:10px;padding:12px 14px;margin:0 0 12px}
 .nova-pax-summary{font-size:13px;font-weight:600;color:var(--navy3,#1B4F72);background:rgba(27,79,114,.08);border:1px solid rgba(27,79,114,.18);border-radius:8px;padding:10px 14px}
+/* Nova Reserva simplificada — sense + mais opções + Somente Agência */
+.nova-sense{grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface)}
+.nova-sense-pill{font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 11px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.nova-sense-pill.in{background:#EFF6FF;border-color:#BFDBFE;color:#1B4F72}
+.nova-sense-pill.out{background:#F5F3FF;border-color:#DDD6FE;color:#7C3AED}
+.nova-sense-pill.local{background:#F0FDFA;border-color:#99F6E4;color:#0F766E}
+.nova-sense-pill.unk{background:#F1F5F9;border-color:var(--border);color:var(--ts)}
+.nova-sense-txt{font-size:12px;color:var(--tm,#374151);flex:1;min-width:120px}
+.nova-opts{display:none;grid-column:1/-1;margin-top:4px;padding:14px;border:1px dashed var(--border);border-radius:12px;background:var(--surface)}
+.nova-opts.open{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.nova-opts .fg.full,.nova-opts .sec-sep,.nova-opts .nova-opts-hd{grid-column:1/-1}
+.nova-opts-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.nova-opts-hd strong{font-size:13px;color:var(--navy)}
+.agence-only-box{grid-column:1/-1;margin:4px 0 8px;padding:14px;border-radius:12px;border:1.5px solid #BFDBFE;background:#EFF6FF}
+.agence-only-box .agence-only-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--navy);color:#fff;margin-bottom:10px}
+.agence-only-box .form-grid{margin-bottom:0}
+.fg input.need,.fg select.need{border-color:#F59E0B;background:#FFFBEB}
+html[data-theme="dark"] .nova-sense{background:var(--surface);border-color:var(--border)}
+html[data-theme="dark"] .nova-opts{background:var(--surface);border-color:var(--border)}
+html[data-theme="dark"] .agence-only-box{background:rgba(27,79,114,.22);border-color:rgba(191,219,254,.35)}
+@media(max-width:600px){.nova-opts.open{grid-template-columns:1fr}}
 
 /* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(13,33,55,.65);backdrop-filter:blur(4px);z-index:900;display:none;align-items:center;justify-content:center;padding:20px}
@@ -1271,14 +1292,69 @@ body{font-size:clamp(13px,1.4vw + 10px,15px)}
       <div class="card-hdr"><div class="card-ttl" id="lbl-create-ttl">➕ Nouvelle Réservation</div><div class="hdr-acts"><button class="btn btn-ghost btn-sm" onclick="resetCreateForm()">🗑 <span class="lbl-i18n-clear">Vider</span></button></div></div>
       <div style="padding:24px">
         <div class="modal-msg" id="create-msg"></div>
-        <p class="create-flow-hint" id="lbl-create-flow-hint">Preencha as secções pela ordem: Cliente → Passageiros → Transfer → Gestão. A data do transfer não pode ser no passado.</p>
+        <p class="create-flow-hint" id="lbl-create-flow-hint" style="display:none"></p>
 
         <div class="sec-sep" id="lbl-sec-client">👤 Cliente</div>
         <div class="form-grid" style="margin-bottom:14px">
           <div class="fg"><label id="lbl-cr-nom">Nome Completo *</label><input type="text" id="cr-nom" autocomplete="name"></div>
-          <div class="fg"><label id="lbl-cr-email">Email *</label><input type="email" id="cr-email" autocomplete="email"></div>
           <div class="fg"><label id="lbl-cr-tel">Telefone *</label><input type="tel" id="cr-tel" placeholder="+351 9XX…" autocomplete="tel"></div>
-          <div class="fg"><label id="lbl-cr-ota">Nº OTA</label><input type="text" id="cr-ota" placeholder="BKG-88392…"><div class="hint lbl-cr-ota-hint">Booking.com ou Expedia</div></div>
+          <div class="fg"><label id="lbl-cr-email">Email <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ts)">(opcional)</span></label><input type="email" id="cr-email" autocomplete="email"></div>
+        </div>
+
+        <div class="sec-sep" id="lbl-sec-transfer">🚗 Transfer</div>
+        <div class="form-grid" style="margin-bottom:14px">
+          <div class="fg" style="display:none"><label id="lbl-cr-orig-type">Tipo de transfer</label>
+            <select id="cr-orig" onchange="onOrigChange()">
+              <option value="airport">✈️ Chegada Aeroporto → Hotel (Transfer IN)</option>
+              <option value="hotel">🏨 Partida Hotel → Aeroporto (Transfer OUT)</option>
+              <option value="highspeed">🚄 Alta Velocidade → Hotel</option>
+              <option value="train">🚂 Comboio → Hotel</option>
+              <option value="bus">🚌 Bus / Terminal → Hotel</option>
+            </select>
+          </div>
+          <div class="fg"><label id="lbl-cr-date">Data do transfer *</label><input type="date" id="cr-date"></div>
+          <div class="fg"><label id="lbl-cr-hour">Hora (24h) *</label><input type="time" id="cr-heure"></div>
+          <div class="fg"><label id="lbl-cr-depart">Partida *</label><select id="cr-depart" onchange="onLieuSelectChange('depart')"></select></div>
+          <div class="fg"><label id="lbl-cr-dest">Destino *</label><select id="cr-dest" onchange="onLieuSelectChange('dest')"></select></div>
+          <div class="fg full">
+            <div class="nova-sense" id="cr-sense-box">
+              <span class="nova-sense-pill unk" id="cr-sense-pill">—</span>
+              <span class="nova-sense-txt" id="cr-sense-txt"></span>
+            </div>
+          </div>
+          <div class="fg"><label id="lbl-cr-adultos">Adultos *</label>
+            <select id="cr-adultos" onchange="onCrCountSelect('cr-adultos');updateCrPaxSummary();autoPrix()">
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+              <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+              <option value="__custom__">✏️ Outro…</option>
+            </select>
+            <input type="number" id="cr-adultos-custom" min="1" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary();autoPrix()">
+          </div>
+        </div>
+
+        <div class="agence-only-box" id="cr-agence-only">
+          <span class="agence-only-tag" id="lbl-cr-agence-only">Somente Agência</span>
+          <div class="form-grid">
+            <div class="fg"><label id="lbl-cr-agency">Hotel</label><select id="cr-ag" onchange="ensureCreateLieuSelects();autoPrix();onOrigChange()"><option value="">— Serviço próprio / não atribuído —</option></select></div>
+            <div class="fg"><label id="lbl-cr-chauffeur">Motorista</label><select id="cr-chauffeur"><option value="">— Atribuir depois —</option></select></div>
+            <div class="fg"><label id="lbl-cr-statut">Estado inicial</label><select id="cr-statut"><option value="pendente">⏳ Pendente</option><option value="confirmado">✅ Confirmado</option></select></div>
+          </div>
+        </div>
+
+        <div class="sec-sep" id="lbl-sec-extra">Complementos</div>
+        <div class="form-grid" style="margin-bottom:14px">
+          <div class="fg"><label id="lbl-cr-prix">Preço final (€) *</label><input type="number" id="cr-prix" min="0" step="0.01" placeholder="35.00"><div class="hint" id="cr-prix-hint" style="display:none"></div></div>
+          <div class="fg"><label><span id="lbl-cr-vol">Nº voo / transporte</span> <span id="cr-vol-flag" style="font-weight:400;font-size:9px;color:var(--ts)">(opcional)</span></label><input type="text" id="cr-vol" placeholder="TP234…"></div>
+          <div class="fg"><label id="lbl-cr-room">Nº Quarto</label><input type="text" id="cr-room" placeholder="205…"></div>
+          <div class="fg full"><label id="lbl-cr-com">Comentários</label><textarea id="cr-com" placeholder="Informações suplementares…"></textarea></div>
+        </div>
+
+        <div class="nova-opts" id="cr-opts" aria-hidden="true">
+          <div class="nova-opts-hd">
+            <strong id="lbl-cr-opts-ttl">Mais opções</strong>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="toggleCrOpts(false)">Fechar</button>
+          </div>
+          <div class="fg"><label id="lbl-cr-ota">Nº OTA</label><input type="text" id="cr-ota" placeholder="BKG-88392…"><div class="hint lbl-cr-ota-hint" style="display:none">Booking.com ou Expedia</div></div>
           <div class="fg"><label id="lbl-cr-lang">Língua do Email</label>
             <select id="cr-lang">
               <option value="pt" selected>🇵🇹 Português (Portugal)</option><option value="en">🇬🇧 English</option>
@@ -1295,38 +1371,12 @@ body{font-size:clamp(13px,1.4vw + 10px,15px)}
               <option value="tr">🇹🇷 Türkçe</option><option value="sw">🇹🇿 Kiswahili</option>
             </select>
           </div>
-        </div>
-
-        <div class="sec-sep" id="lbl-sec-pax">👥 Passageiros & bagagens</div>
-        <div class="form-grid" style="margin-bottom:14px">
-          <div class="fg"><label id="lbl-cr-adultos">Adultos *</label>
-            <select id="cr-adultos" onchange="onCrCountSelect('cr-adultos');updateCrPaxSummary();autoPrix()">
-              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-              <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
-              <option value="__custom__">✏️ Outro…</option>
-            </select>
-            <input type="number" id="cr-adultos-custom" min="1" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary();autoPrix()">
-          </div>
           <div class="fg"><label id="lbl-cr-bebes">Bebés</label>
             <select id="cr-bebes" onchange="onCrCountSelect('cr-bebes');updateCrPaxSummary();autoPrix()">
               <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
               <option value="__custom__">✏️ Outro…</option>
             </select>
             <input type="number" id="cr-bebes-custom" min="0" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary();autoPrix()">
-          </div>
-          <div class="fg"><label id="lbl-cr-cadeira-rodas">Cadeira de rodas</label>
-            <select id="cr-cadeira-rodas" onchange="onCrCountSelect('cr-cadeira-rodas');updateCrPaxSummary()">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-              <option value="__custom__">✏️ Outro…</option>
-            </select>
-            <input type="number" id="cr-cadeira-rodas-custom" min="0" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary()">
-          </div>
-          <div class="fg"><label id="lbl-cr-cadeira-bebe">Cadeira auto bebé</label>
-            <select id="cr-cadeira-bebe" onchange="onCrCountSelect('cr-cadeira-bebe');updateCrPaxSummary()">
-              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-              <option value="__custom__">✏️ Outro…</option>
-            </select>
-            <input type="number" id="cr-cadeira-bebe-custom" min="0" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary()">
           </div>
           <div class="fg"><label id="lbl-cr-malas-grandes">Malas grandes</label>
             <select id="cr-malas-grandes" onchange="onCrCountSelect('cr-malas-grandes');updateCrPaxSummary()">
@@ -1344,42 +1394,33 @@ body{font-size:clamp(13px,1.4vw + 10px,15px)}
             </select>
             <input type="number" id="cr-mochilas-custom" min="0" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary()">
           </div>
-          <div class="fg full"><div class="nova-pax-summary" id="cr-pax-summary">Total pax: 1 · Total bagagens: 0</div></div>
-        </div>
-
-        <div class="sec-sep" id="lbl-sec-transfer">🚗 Transfer</div>
-        <div class="form-grid" style="margin-bottom:14px">
-          <div class="fg"><label id="lbl-cr-orig-type">Tipo de transfer</label>
-            <select id="cr-orig" onchange="onOrigChange()">
-              <option value="airport">✈️ Chegada Aeroporto → Hotel (Transfer IN)</option>
-              <option value="hotel">🏨 Partida Hotel → Aeroporto (Transfer OUT)</option>
-              <option value="highspeed">🚄 Alta Velocidade → Hotel</option>
-              <option value="train">🚂 Comboio → Hotel</option>
-              <option value="bus">🚌 Bus / Terminal → Hotel</option>
+          <div class="fg"><label id="lbl-cr-cadeira-rodas">Cadeira de rodas</label>
+            <select id="cr-cadeira-rodas" onchange="onCrCountSelect('cr-cadeira-rodas');updateCrPaxSummary()">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+              <option value="__custom__">✏️ Outro…</option>
             </select>
+            <input type="number" id="cr-cadeira-rodas-custom" min="0" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary()">
           </div>
-          <div class="fg"><label id="lbl-cr-depart">Partida *</label><select id="cr-depart" onchange="onLieuSelectChange('depart')"></select></div>
-          <div class="fg"><label id="lbl-cr-dest">Destino *</label><select id="cr-dest" onchange="onLieuSelectChange('dest')"></select></div>
-          <div class="fg" id="cr-depart-custom-wrap" style="display:none"><label id="lbl-cr-depart-custom">Outro partida (nome)</label><input type="text" id="cr-depart-custom" placeholder="Nome do lugar…" oninput="autoPrix()"></div>
-          <div class="fg" id="cr-dest-custom-wrap" style="display:none"><label id="lbl-cr-dest-custom">Outro destino (nome)</label><input type="text" id="cr-dest-custom" placeholder="Nome do lugar…" oninput="autoPrix()"></div>
+          <div class="fg"><label id="lbl-cr-cadeira-bebe">Cadeira auto bebé</label>
+            <select id="cr-cadeira-bebe" onchange="onCrCountSelect('cr-cadeira-bebe');updateCrPaxSummary()">
+              <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+              <option value="__custom__">✏️ Outro…</option>
+            </select>
+            <input type="number" id="cr-cadeira-bebe-custom" min="0" placeholder="Nº" style="display:none;margin-top:6px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r)" oninput="updateCrPaxSummary()">
+          </div>
+          <div class="fg full"><div class="nova-pax-summary" id="cr-pax-summary">Total pax: 1 · Total bagagens: 0</div></div>
+          <div class="fg" id="cr-depart-custom-wrap" style="display:none"><label id="lbl-cr-depart-custom">Outro partida (nome)</label><input type="text" id="cr-depart-custom" placeholder="Nome do lugar…" oninput="autoPrix();updateCrSenseUi_()"></div>
+          <div class="fg" id="cr-dest-custom-wrap" style="display:none"><label id="lbl-cr-dest-custom">Outro destino (nome)</label><input type="text" id="cr-dest-custom" placeholder="Nome do lugar…" oninput="autoPrix();updateCrSenseUi_()"></div>
           <div class="fg"><label><span id="lbl-cr-addr-dep">Morada partida</span> <span class="lbl-cr-opt" id="cr-addr-dep-opt" style="font-size:9px;color:var(--ts)">(opt.)</span></label><input type="text" id="cr-addr-dep" placeholder="Rua, nº…"></div>
           <div class="fg"><label><span id="lbl-cr-addr-dest">Morada destino</span> <span class="lbl-cr-opt" id="cr-addr-dest-opt" style="font-size:9px;color:var(--ts)">(opt.)</span></label><input type="text" id="cr-addr-dest" placeholder="Rua, nº…"></div>
-          <div class="fg"><label id="lbl-cr-date">Data do transfer *</label><input type="date" id="cr-date"></div>
-          <div class="fg"><label id="lbl-cr-hour">Hora (24h) *</label><input type="time" id="cr-heure"></div>
-          <div class="fg"><label><span id="lbl-cr-vol">Nº Voo</span> <span class="lbl-cr-opt" style="font-size:9px;color:var(--ts)">(opt.)</span></label><input type="text" id="cr-vol" placeholder="TP234…"></div>
-          <div class="fg"><label><span id="lbl-cr-transport">Nº Transporte</span> <span class="lbl-cr-opt" style="font-size:9px;color:var(--ts)">(opt.)</span></label><input type="text" id="cr-transport" placeholder="IC712…"><div class="hint lbl-cr-hint-tr">Comboio, bus ou ferry</div></div>
-          <div class="fg"><label id="lbl-cr-room">Nº Quarto</label><input type="text" id="cr-room" placeholder="205…"></div>
+          <div class="fg"><label id="lbl-cr-pay">Pagamento</label><select id="cr-paiement"><option value="non_payé">Não pago</option><option value="payé">Pago</option></select></div>
+          <div class="fg"><label><span id="lbl-cr-transport">Nº Transporte</span> <span class="lbl-cr-opt" style="font-size:9px;color:var(--ts)">(opt.)</span></label><input type="text" id="cr-transport" placeholder="IC712…"><div class="hint lbl-cr-hint-tr" style="display:none">Comboio, bus ou ferry</div></div>
+          <div class="sec-sep" id="lbl-sec-pax" style="display:none">👥 Passageiros & bagagens</div>
+          <div class="sec-sep" id="lbl-sec-gestion" style="display:none">⚙️ Gestão</div>
         </div>
 
-        <div class="sec-sep" id="lbl-sec-gestion">⚙️ Gestão</div>
-        <div class="form-grid" style="margin-bottom:14px">
-          <div class="fg"><label id="lbl-cr-statut">Estado inicial</label><select id="cr-statut"><option value="pendente">⏳ Pendente</option><option value="confirmado">✅ Confirmado</option></select></div>
-          <div class="fg"><label id="lbl-cr-agency">Hotel</label><select id="cr-ag" onchange="ensureCreateLieuSelects();autoPrix();onOrigChange()"><option value="">— Serviço próprio / não atribuído —</option></select></div>
-          <div class="fg"><label id="lbl-cr-prix">Preço final (€)</label><input type="number" id="cr-prix" min="0" step="0.01" placeholder="35.00"><div class="hint" id="cr-prix-hint"></div></div>
-          <div class="fg"><label id="lbl-cr-pay">Pagamento</label><select id="cr-paiement"><option value="non_payé">Não pago</option><option value="payé">Pago</option></select></div>
-          <div class="fg full"><label id="lbl-cr-com">Comentários</label><textarea id="cr-com" placeholder="Informações suplementares…"></textarea></div>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-ghost" type="button" id="btn-cr-opts" onclick="toggleCrOpts()">Mais opções</button>
           <button class="btn btn-navy btn-lg" onclick="doCreateReserva()">✅ <span id="lbl-btn-create">Criar reserva</span></button>
           <button class="btn btn-ghost" onclick="resetCreateForm()">🗑 <span class="lbl-i18n-clear">Limpar</span></button>
         </div>
@@ -3662,7 +3703,18 @@ function setLang(lang,zone){
   s('lbl-bulk-sel',t.bulkSel);s('lbl-bulk-email',t.bulkEmail);s('lbl-bulk-conf',t.bulkConf);s('lbl-bulk-real',t.bulkReal);s('lbl-bulk-pago',t.bulkPago);s('lbl-bulk-canc',t.bulkCanc);s('lbl-bulk-desel',t.bulkDesel);
   s('lbl-create-ttl',t.createTtl);s('lbl-sec-client',t.secClient);s('lbl-sec-pax',t.secPax||'👥 Passageiros & bagagens');s('lbl-sec-transfer',t.secTransfer);s('lbl-sec-gestion',t.secGestion);
   s('lbl-create-flow-hint',t.createFlowHint||'');
-  s('lbl-cr-nom',t.crNom);s('lbl-cr-email',t.crEmail);s('lbl-cr-tel',t.crTel);s('lbl-cr-lang',t.crLang);s('lbl-btn-create',t.btnCreate);
+  s('lbl-cr-nom',t.crNom);s('lbl-cr-tel',t.crTel);s('lbl-cr-lang',t.crLang);s('lbl-btn-create',t.btnCreate);
+  const emailLab=document.getElementById('lbl-cr-email');
+  if(emailLab){
+    const base=(t.crEmail||'Email').replace(/\s*\*\s*$/,'').trim();
+    emailLab.innerHTML=base+' <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ts)">(opcional)</span>';
+  }
+  s('lbl-sec-extra',t.secExtra||'Complementos');
+  s('lbl-cr-opts-ttl',t.crOptsTtl||'Mais opções');
+  s('lbl-cr-agence-only',t.crAgenceOnly||'Somente Agência');
+  s('lbl-cr-chauffeur',t.crChauffeur||'Motorista');
+  const btnOpts=document.getElementById('btn-cr-opts');
+  if(btnOpts&&!document.getElementById('cr-opts')?.classList.contains('open')) btnOpts.textContent=t.crOptsTtl||'Mais opções';
   s('lbl-cr-adultos',t.crAdultos||'Adultos *');s('lbl-cr-bebes',t.crBebes||'Bebés');
   s('lbl-cr-cadeira-rodas',t.crCadeiraRodas||'Cadeira de rodas');s('lbl-cr-cadeira-bebe',t.crCadeiraBebe||'Cadeira auto bebé');
   s('lbl-cr-malas-grandes',t.crMalasGrandes||'Malas grandes');s('lbl-cr-mochilas',t.crMochilas||'Mochilas');
@@ -3686,8 +3738,8 @@ function setLang(lang,zone){
   const bm=document.getElementById('b-mode');if(bm){const mv=bm.value||'synthese';bm.innerHTML=`<option value="synthese">${t.bilanModeSynth}</option><option value="detail">${t.bilanModeDetail}</option>`;bm.value=mv;}
   s('lbl-cr-ota',t.crOta);s('lbl-cr-orig-type',t.crOrigType);s('lbl-cr-depart',t.crDepart);s('lbl-cr-dest',t.crDest);
   s('lbl-cr-addr-dep',t.crAddrDep);s('lbl-cr-addr-dest',t.crAddrDest);s('lbl-cr-date',(t.crDate||'Data')+' *');s('lbl-cr-hour',(t.crHour||'Hora')+' *');
-  s('lbl-cr-vol',t.crVol);s('lbl-cr-transport',t.crTransport);s('lbl-cr-room',t.crRoom);s('lbl-cr-statut',t.crStatutLab);s('lbl-cr-agency',t.crAgencyHotel||t.crAgency||'Hotel');
-  s('lbl-cr-prix',t.crPrixLab);s('lbl-cr-pay',t.crPayLab);s('lbl-cr-com',t.crComLab);
+  s('lbl-cr-vol',t.crVolTransport||t.crVol||'Nº voo / transporte');s('lbl-cr-transport',t.crTransport);s('lbl-cr-room',t.crRoom);s('lbl-cr-statut',t.crStatutLab);s('lbl-cr-agency',t.crAgencyHotel||t.crAgency||'Hotel');
+  s('lbl-cr-prix',(t.crPrixLab||'Preço final (€)').replace(/\s*\*?\s*$/,'')+' *');s('lbl-cr-pay',t.crPayLab);s('lbl-cr-com',t.crComLab);
   const crAg=document.getElementById('cr-ag');
   if(crAg&&crAg.options.length){const first=crAg.options[0];if(first&&!first.value)first.textContent=t.crHotelOwn||t.agNonAttrib||first.textContent;}
   document.querySelectorAll('.lbl-cr-opt').forEach(el=>{el.textContent=t.crOpt||'(opt.)';});
@@ -4118,12 +4170,16 @@ function agDisplayLabel(id){
 async function loadChauffeurs(opts){
   opts=opts||{};
   const force=!!opts.force;
-  if(!force && S.chauffeurs.length && navCacheFresh_(S._chauffeursAt, NAV_TTL.chauffeurs)) return;
+  if(!force && S.chauffeurs.length && navCacheFresh_(S._chauffeursAt, NAV_TTL.chauffeurs)){
+    fillCrChauffeurSelect_();
+    return;
+  }
   try{
     const d=await api({action:'listerChauffeurs',adminToken:S.token});
     if(!d.success)return;
     S.chauffeurs=d.chauffeurs||[];
     S._chauffeursAt=Date.now();
+    fillCrChauffeurSelect_();
   }catch(e){dbg('err','loadChauffeurs: '+e.message);}
 }
 
@@ -6599,12 +6655,97 @@ function onLieuSelectChange(which){
   if(!sel) return;
   const custom=sel.value==='__custom__';
   if(wrap) wrap.style.display=custom?'':'none';
+  if(custom) toggleCrOpts(true);
   const opt=sel.selectedOptions&&sel.selectedOptions[0];
   const preAdr=opt? (opt.getAttribute('data-adresse')||'') : '';
   if(!custom && addr && preAdr && !addr.value) addr.value=preAdr;
   if(optLbl) optLbl.textContent=custom?'* obrig.':' (opt.)';
   autoPrix();
+  updateCrSenseUi_();
   scheduleCrRouteMap();
+}
+
+function inferCrLieuKind_(nom){
+  const n=String(nom||'').toLowerCase();
+  if(!n) return '';
+  const lieu=(S.lieux||[]).find(l=>String(l.nom||'').toLowerCase()===n);
+  if(lieu){
+    const t=String(lieu.typeLieu||lieu.kind||lieu.categorie||'').toLowerCase();
+    if(/airport|aeroporto/.test(t)) return 'airport';
+    if(/train|comboio|gare|estação|estacao/.test(t)) return 'train';
+    if(/bus|autocarro|terminal/.test(t)) return 'bus';
+    if(/high|alta/.test(t)) return 'highspeed';
+    if(/hotel/.test(t)) return 'hotel';
+    if(/city|cidade|lugar|local|poi/.test(t)) return 'city';
+  }
+  if((S.agencias||[]).some(a=>String(a.nom||'').toLowerCase()===n)) return 'hotel';
+  if(/airport|aeroporto|\blis\b/.test(n)) return 'airport';
+  if(/oriente|apol[oó]nia|estação|estacao|comboio|train|gare/.test(n)) return 'train';
+  if(/sete rios|bus|terminal|autocarro/.test(n)) return 'bus';
+  if(/alta velocidade|high.?speed|alfa/.test(n)) return 'highspeed';
+  if(/hotel/.test(n)) return 'hotel';
+  return 'city';
+}
+
+function detectCrSense_(){
+  const dep=getCrLieuValue('depart');
+  const dest=getCrLieuValue('dest');
+  if(!dep||!dest) return {code:'unk',label:'—',txt:'',origine:'airport'};
+  if(dep===dest) return {code:'unk',label:'?',txt:'',origine:'airport'};
+  const dk=inferCrLieuKind_(dep);
+  const tk=inferCrLieuKind_(dest);
+  const hub={airport:1,train:1,bus:1,highspeed:1};
+  if(hub[dk]&&tk==='hotel'){
+    return {code:'in',label:'Chegada · IN',txt:dep+' → '+dest,origine:dk};
+  }
+  if(dk==='hotel'&&hub[tk]){
+    return {code:'out',label:'Partida · OUT',txt:dep+' → '+dest,origine:'hotel'};
+  }
+  return {code:'local',label:'Interno · LOCAL',txt:dep+' → '+dest,origine:hub[dk]?dk:(hub[tk]?tk:'airport')};
+}
+
+function updateCrSenseUi_(){
+  const s=detectCrSense_();
+  const pill=document.getElementById('cr-sense-pill');
+  const txt=document.getElementById('cr-sense-txt');
+  const flag=document.getElementById('cr-vol-flag');
+  const orig=document.getElementById('cr-orig');
+  if(pill){ pill.className='nova-sense-pill '+s.code; pill.textContent=s.label; }
+  if(txt) txt.textContent=s.txt||'';
+  if(flag){
+    if(s.code==='in'){ flag.textContent='*'; flag.style.color='#B45309'; }
+    else { flag.textContent='(opcional)'; flag.style.color='var(--ts)'; }
+  }
+  if(orig&&s.origine){
+    if([...orig.options].some(o=>o.value===s.origine)) orig.value=s.origine;
+  }
+  const prix=document.getElementById('cr-prix');
+  if(prix&&!String(prix.value||'').trim()){
+    prix.placeholder=s.code==='out'?'25':(s.code==='in'?'35':'0.00');
+  }
+}
+
+function toggleCrOpts(force){
+  const panel=document.getElementById('cr-opts');
+  const btn=document.getElementById('btn-cr-opts');
+  const open=force===undefined?!(panel&&panel.classList.contains('open')):!!force;
+  if(panel){
+    panel.classList.toggle('open',open);
+    panel.setAttribute('aria-hidden',open?'false':'true');
+  }
+  if(btn) btn.textContent=open?'Ocultar opções':'Mais opções';
+}
+
+function fillCrChauffeurSelect_(){
+  const sel=document.getElementById('cr-chauffeur');
+  if(!sel) return;
+  const prev=sel.value;
+  let html='<option value="">— Atribuir depois —</option>';
+  (S.chauffeurs||[]).filter(c=>c.statut==='actif').forEach(c=>{
+    html+=`<option value="${escAttr(c.chauffeurId)}">${escHtml(c.chauffeurId)} · ${escHtml(c.nom||'')}</option>`;
+  });
+  sel.innerHTML=html;
+  if(prev&&[...sel.options].some(o=>o.value===prev)) sel.value=prev;
 }
 
 function getCrLieuValue(which){
@@ -6757,7 +6898,9 @@ function defaultPrixTransfer_(){
 
 async function doCreateReserva(){
   const tx=t();
-  for(const[fid,lbl]of[['cr-nom','Nom'],['cr-email','Email'],['cr-tel','Téléphone']]){if(!document.getElementById(fid)?.value.trim()){showInlineError('Champ obligatoire : '+lbl,'warn');return;}}
+  for(const[fid,lbl]of[['cr-nom','Nom'],['cr-tel','Téléphone']]){if(!document.getElementById(fid)?.value.trim()){showInlineError('Champ obligatoire : '+lbl,'warn');return;}}
+  const email=(document.getElementById('cr-email')?.value||'').trim();
+  if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showInlineError(tx.nvErrEmail||tx.crErrEmail||'Email inválido','warn');return;}
   const adultos=nIntCrField_('cr-adultos',0);
   const bebes=nIntCrField_('cr-bebes',0);
   const cadeiraRodas=nIntCrField_('cr-cadeira-rodas',0);
@@ -6780,13 +6923,26 @@ async function doCreateReserva(){
   const heureTransfer=document.getElementById('cr-heure').value;
   if(!dateTransfer||!heureTransfer){showInlineError(tx.crErrDateReq||'Date et heure obligatoires','warn');return;}
   if(staffCreateDateTimePast(dateTransfer,heureTransfer)){showInlineError(tx.crErrDatePast||'Date/heure passée','warn');return;}
+  const sense=detectCrSense_();
+  const volEl=document.getElementById('cr-vol');
+  const trEl=document.getElementById('cr-transport');
+  if(volEl) volEl.classList.remove('need');
+  if(trEl) trEl.classList.remove('need');
+  const volVal=(volEl?.value||'').trim();
+  const trVal=(trEl?.value||'').trim();
+  if(sense.code==='in'&&!volVal&&!trVal){
+    if(volEl) volEl.classList.add('need');
+    if(trEl) trEl.classList.add('need');
+    showInlineError(tx.nvErrVooIn||'Chegada: indique o nº de voo / transporte.','warn');
+    return;
+  }
   let prixFinal=document.getElementById('cr-prix').value;
-  if(prixFinal===''||prixFinal==null) prixFinal=String(defaultPrixTransfer_());
+  if(prixFinal===''||prixFinal==null){showInlineError(tx.crErrPrix||'Preço obrigatório','warn');return;}
   document.getElementById('create-msg').className='modal-msg';
   try{
     const d=await api({action:'creerReservacaoERP',adminToken:S.token,
       nom:document.getElementById('cr-nom').value.trim(),
-      email:document.getElementById('cr-email').value.trim(),
+      email:email,
       telephone:normaliserTelephonePourSauvegarde(document.getElementById('cr-tel').value),
       numReservaOta:document.getElementById('cr-ota').value.trim(),
       personnes,
@@ -6805,8 +6961,8 @@ async function doCreateReserva(){
       adresseDestination,
       dateTransfer,
       heureTransfer,
-      numVol:document.getElementById('cr-vol').value.trim(),
-      numTransport:document.getElementById('cr-transport').value.trim(),
+      numVol:volVal,
+      numTransport:trVal,
       numChambre:document.getElementById('cr-room').value.trim(),
       statut:document.getElementById('cr-statut').value,
       agencyId:document.getElementById('cr-ag').value,
@@ -6815,6 +6971,13 @@ async function doCreateReserva(){
       commentaires:document.getElementById('cr-com').value.trim()
     });
     if(d.success){
+      const chauffeurId=(document.getElementById('cr-chauffeur')?.value||'').trim();
+      if(chauffeurId&&d.id){
+        try{
+          const ad=await api({action:'atribuirChauffeur',adminToken:S.token,reservationId:d.id,chauffeurId});
+          if(!ad.success&&ad.sessionExpired){doLogout();return;}
+        }catch(e){dbg('err','atribuirChauffeur after create: '+e.message);}
+      }
       showMsgEl('create-msg','✅ Réservation créée : '+d.id,'success');
       toast('✅ '+d.id+' créée','success');
       resetCreateForm();S._searchIndex=null;loadReservas();
@@ -6825,6 +6988,7 @@ async function doCreateReserva(){
 function resetCreateForm(){
   ['cr-nom','cr-email','cr-tel','cr-ota','cr-vol','cr-transport','cr-room','cr-date','cr-heure','cr-prix','cr-com','cr-addr-dep','cr-addr-dest','cr-depart-custom','cr-dest-custom','cr-adultos-custom','cr-bebes-custom','cr-cadeira-rodas-custom','cr-cadeira-bebe-custom','cr-malas-grandes-custom','cr-mochilas-custom'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   const ag=document.getElementById('cr-ag'); if(ag) ag.value='';
+  const ch=document.getElementById('cr-chauffeur'); if(ch) ch.value='';
   ['cr-depart-custom-wrap','cr-dest-custom-wrap'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
   setCrCountValue('cr-adultos',1,{min:1});
   setCrCountValue('cr-bebes',0,{min:0});
@@ -6834,7 +6998,10 @@ function resetCreateForm(){
   setCrCountValue('cr-mochilas',0,{min:0});
   document.getElementById('cr-orig').value='airport';document.getElementById('cr-lang').value='pt';
   document.getElementById('cr-statut').value='pendente';document.getElementById('cr-paiement').value='non_payé';
-  document.getElementById('create-msg').className='modal-msg';document.getElementById('cr-prix-hint').textContent='';
+  document.getElementById('create-msg').className='modal-msg';
+  const hint=document.getElementById('cr-prix-hint'); if(hint) hint.textContent='';
+  ['cr-vol','cr-transport'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('need');});
+  toggleCrOpts(false);
   updateCrPaxSummary();
   const prixEl=document.getElementById('cr-prix');
   if(prixEl) prixEl.value=String(defaultPrixTransfer_());
@@ -8064,8 +8231,11 @@ function showTab(name){
   else if(name==='create'){
     Promise.all([
       loadPrices({renderUi:false}),
-      loadLieuxForCreate()
+      loadLieuxForCreate(),
+      loadChauffeurs()
     ]).then(()=>{
+      fillCrChauffeurSelect_();
+      updateCrSenseUi_();
       setTimeout(()=>{
         try{
           if(!isCrRouteMapOpen_()) return;
