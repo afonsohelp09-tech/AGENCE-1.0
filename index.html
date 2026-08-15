@@ -39,7 +39,7 @@
   --upcoming:#7C3AED;--up-bg:#F5F3FF;--up-b:#DDD6FE;
   --r:8px;--r-lg:12px;--r-xl:16px;--r-2xl:20px;
   --shadow:0 1px 3px rgba(0,0,0,.08);--shadow-lg:0 6px 24px rgba(13,33,55,.14);
-  --ease:.2s cubic-bezier(.4,0,.2,1);
+  --ease:.12s cubic-bezier(.4,0,.2,1);
 }
 html{color-scheme:light;-webkit-text-size-adjust:100%}
 html,body{height:100%;min-height:100dvh;overflow-x:hidden}
@@ -65,7 +65,7 @@ body{
 .modal-sheet-handle{display:none;width:40px;height:4px;border-radius:99px;background:var(--border);margin:10px auto 0;flex-shrink:0}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.fadein{animation:fadeUp .35s ease both}
+.fadein{animation:fadeUp .16s ease both}
 
 /* LOGIN */
 #ls{background:linear-gradient(135deg,#060e1c 0%,var(--navy) 55%,var(--navy3) 100%);flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
@@ -124,11 +124,11 @@ body{
 .btn-nav-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;margin-right:4px;margin-left:-4px;padding:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:var(--r);color:#fff;cursor:pointer;transition:var(--ease);flex-shrink:0}
 .btn-nav-toggle:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4)}
 .btn-nav-toggle svg{display:block}
-.nav-drawer{position:fixed;inset:0;z-index:850;pointer-events:none;visibility:hidden;transition:visibility .3s}
+.nav-drawer{position:fixed;inset:0;z-index:850;pointer-events:none;visibility:hidden;transition:visibility .12s}
 .nav-drawer.open{pointer-events:auto;visibility:visible}
-.nav-drawer-backdrop{position:absolute;inset:0;background:rgba(13,33,55,.55);opacity:0;transition:opacity .3s ease}
+.nav-drawer-backdrop{position:absolute;inset:0;background:rgba(13,33,55,.55);opacity:0;transition:opacity .12s ease}
 .nav-drawer.open .nav-drawer-backdrop{opacity:1}
-.nav-drawer-panel{position:absolute;top:0;left:0;bottom:0;width:min(85vw,320px);max-width:320px;background:var(--white);box-shadow:8px 0 32px rgba(0,0,0,.25);transform:translateX(-105%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+.nav-drawer-panel{position:absolute;top:0;left:0;bottom:0;width:min(85vw,320px);max-width:320px;background:var(--white);box-shadow:8px 0 32px rgba(0,0,0,.25);transform:translateX(-105%);transition:transform .16s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
 .nav-drawer.open .nav-drawer-panel{transform:translateX(0)}
 .nav-drawer-hdr{flex-shrink:0;padding:16px 16px 14px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .nav-drawer-hdr span{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600}
@@ -348,6 +348,8 @@ html[data-theme="dark"] .acts-dd-menu{background:var(--surface);box-shadow:0 10p
 .fg{display:flex;flex-direction:column;gap:5px}
 .fg.full{grid-column:1/-1}
 .fg label{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ts)}
+#eq-perms-panel label.eq-perm{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--t);cursor:pointer;margin:0}
+#eq-perms-panel label.eq-perm input{width:15px;height:15px;flex-shrink:0}
 .fg input,.fg select,.fg textarea{padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--white);transition:var(--ease);width:100%}
 .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(13,33,55,.06)}
 .fg textarea{resize:vertical;min-height:75px;line-height:1.6}
@@ -446,21 +448,25 @@ html[data-theme="dark"] .agence-only-box{background:rgba(27,79,114,.22);border-c
 .timeline-day{margin-bottom:28px}
 .timeline-date{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--upcoming);margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .timeline-date::after{content:'';flex:1;height:1px;background:var(--up-b)}
-.timeline-cards{display:flex;flex-direction:column;gap:10px}
-.tl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;display:flex;gap:16px;align-items:flex-start;transition:var(--ease);cursor:pointer}
+.timeline-cards{display:flex;flex-direction:column;gap:12px}
+.tl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 16px;display:flex;gap:14px;align-items:flex-start;transition:var(--ease);cursor:pointer;box-shadow:var(--shadow,0 1px 3px rgba(13,33,55,.06))}
 .tl-card:hover{border-color:var(--upcoming);box-shadow:0 0 0 3px rgba(124,58,237,.06);transform:translateY(-1px)}
 .tl-card.urgent{border-left:4px solid var(--danger)}
 .tl-card.today{border-left:4px solid var(--gold)}
-.tl-time{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);min-width:54px;text-align:center;line-height:1}
-.tl-time-lbl{font-size:9px;color:var(--ts);text-align:center;margin-top:2px}
-.tl-divider{width:1px;background:var(--border2);align-self:stretch;margin:0 4px}
-.tl-body{flex:1;min-width:0}
-.tl-ref{font-family:monospace;font-size:11px;color:var(--navy3);font-weight:600}
-.tl-client{font-size:14px;font-weight:600;color:var(--text);margin:2px 0}
-.tl-route{font-size:12px;color:var(--ts);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tl-meta{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap}
-.tl-meta span{font-size:11px;color:var(--ts)}
-.tl-acts{display:flex;gap:6px;flex-direction:column;align-items:flex-end}
+.tl-time-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-width:58px;flex-shrink:0;padding-top:2px}
+.tl-time{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);min-width:54px;text-align:center;line-height:1;letter-spacing:.02em}
+.tl-time-lbl{font-size:9px;color:var(--ts);text-align:center;margin-top:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.tl-divider{width:1px;background:var(--border2);align-self:stretch;margin:0 2px;flex-shrink:0}
+.tl-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.tl-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tl-ref{font-family:ui-monospace,monospace;font-size:12px;color:var(--navy3,#334155);font-weight:700}
+.tl-client{font-size:15px;font-weight:700;color:var(--text);margin:0;line-height:1.3;word-break:break-word}
+.tl-route{font-size:13px;color:var(--tm,#475569);font-weight:500;line-height:1.45;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl-route-from,.tl-route-to{display:inline}
+.tl-meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;align-items:center}
+.tl-meta span,.tl-chip{font-size:12px;font-weight:600;color:var(--tm,#475569);background:var(--surface,#f1f5f9);border:1px solid var(--border2,#e2e8f0);border-radius:999px;padding:4px 10px;line-height:1.3;max-width:100%;word-break:break-word}
+.tl-chip-tel{color:var(--navy)!important;background:rgba(13,33,55,.06)!important;border-color:rgba(13,33,55,.14)!important}
+.tl-acts{display:flex;gap:6px;flex-direction:column;align-items:flex-end;flex-shrink:0}
 
 /* HIST */
 .hist-list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto}
@@ -615,7 +621,9 @@ html[data-theme="dark"] #section-upcoming .tl-divider{background:var(--border)}
 html[data-theme="dark"] #section-upcoming .tl-ref{color:#b8c9f0}
 html[data-theme="dark"] #section-upcoming .tl-client{color:#f4f7fc}
 html[data-theme="dark"] #section-upcoming .tl-route,
-html[data-theme="dark"] #section-upcoming .tl-meta span{color:#d1dce8}
+html[data-theme="dark"] #section-upcoming .tl-meta span,
+html[data-theme="dark"] #section-upcoming .tl-chip{color:#e2e8f0;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+html[data-theme="dark"] #section-upcoming .tl-chip-tel{color:#f8fafc!important;background:rgba(167,139,250,.18)!important;border-color:rgba(167,139,250,.35)!important}
 html[data-theme="dark"] #section-upcoming .empty-title{color:var(--text)}
 html[data-theme="dark"] .loader p{color:var(--ts)}
 html[data-theme="dark"] .loader-ring{border-color:var(--border);border-top-color:var(--gold)}
@@ -725,6 +733,37 @@ html[data-theme="dark"] .modal-msg.error{color:#fca5a5}
   .page-info{text-align:center}
   .page-btns{justify-content:center;flex-wrap:wrap;gap:8px}
   .page-btn{min-width:44px;min-height:44px;padding:10px 14px;touch-action:manipulation}
+  /* Próximas — cartes empilées lisibles (comme Parceiros / Hotel) */
+  #section-upcoming .upcoming-header{padding:14px 16px;align-items:flex-start}
+  #section-upcoming .upcoming-title{font-size:1.125rem;line-height:1.25}
+  #section-upcoming .upcoming-sub{font-size:.8125rem;line-height:1.4}
+  #section-upcoming .timeline{padding:14px 12px;padding-bottom:max(20px,env(safe-area-inset-bottom))}
+  #section-upcoming .timeline-day{margin-bottom:20px}
+  #section-upcoming .timeline-date{font-size:.75rem;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+  #section-upcoming .timeline-cards{gap:12px}
+  #section-upcoming .tl-card{
+    flex-direction:column;gap:10px;padding:14px;
+    align-items:stretch;min-height:0;touch-action:manipulation;
+  }
+  #section-upcoming .tl-time-col{
+    flex-direction:row;align-items:center;justify-content:flex-start;
+    gap:8px;min-width:0;width:100%;padding:0;
+  }
+  #section-upcoming .tl-time{font-size:1.375rem;min-width:0;text-align:left}
+  #section-upcoming .tl-time-lbl{margin-top:0;font-size:.6875rem}
+  #section-upcoming .tl-divider{display:none}
+  #section-upcoming .tl-head{width:100%}
+  #section-upcoming .tl-client{font-size:1rem;font-weight:700}
+  #section-upcoming .tl-route{
+    white-space:normal;overflow:visible;text-overflow:unset;
+    font-size:.875rem;line-height:1.45;color:var(--text);
+  }
+  #section-upcoming .tl-route-block{display:flex;flex-direction:column;gap:2px}
+  #section-upcoming .tl-route-from,#section-upcoming .tl-route-to{display:block}
+  #section-upcoming .tl-meta{gap:6px;margin-top:8px}
+  #section-upcoming .tl-meta span,#section-upcoming .tl-chip{font-size:.75rem;padding:5px 10px}
+  #section-upcoming .tl-acts{align-self:stretch;flex-direction:row;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:8px}
+  #section-upcoming .tl-acts .badge{font-size:.75rem;padding:5px 10px}
   .overlay{padding:0;align-items:flex-end}
   .modal{max-height:85dvh;max-height:85vh;border-radius:var(--r-xl) var(--r-xl) 0 0;position:fixed;bottom:0;left:0;right:0;max-width:100%;padding-bottom:max(12px,env(safe-area-inset-bottom));display:flex;flex-direction:column}
   .modal-sheet-handle{display:block}
@@ -1621,12 +1660,13 @@ html[data-theme="dark"] .disp-btn.on,html[data-theme="dark"] .disp-btn[aria-pres
       <div class="card-hdr">
         <div class="card-ttl" id="lbl-eq-ttl">👥 Equipa</div>
         <div class="hdr-acts">
-          <button class="btn btn-gold btn-sm" onclick="openAddEquipeModal()"><span id="lbl-eq-add">➕ Adicionar membro</span></button>
+          <span id="eq-quota" style="font-size:12px;font-weight:600;color:var(--ts);margin-right:8px"></span>
+          <button class="btn btn-gold btn-sm" id="btn-eq-add" onclick="openAddEquipeModal()"><span id="lbl-eq-add">➕ Adicionar membro</span></button>
           <button class="btn btn-ghost btn-sm" onclick="loadEquipeTab({force:true})">↻</button>
         </div>
       </div>
       <div id="lbl-eq-hint" style="padding:10px 16px;font-size:12px;color:var(--info);background:var(--info-bg);border-bottom:1px solid var(--info-b)">
-        👥 Contas da equipa Agence: login + palavra-passe + email (recuperação). Funções: <strong>OWNER</strong> (acesso total), <strong>MANAGER</strong> (hotéis/reservas, sem MDP hoteleiros), <strong>STAFF</strong> (reservas). O login <code>AGENCE_ADMIN</code> continua válido.
+        👥 Contas da equipa: login + palavra-passe + email (recuperação). Limite <strong id="eq-hint-limite">10</strong> contas ativas. Funções: <strong>OWNER</strong> (total), <strong>MANAGER</strong> (hotéis/reservas), <strong>STAFF</strong> (reservas). O login principal da agência (AGN…) continua válido. Após criar, o membro recebe um email e entra com o seu login neste portal.
       </div>
       <div class="tbl-wrap" id="eq-wrap"><div class="loader"><div class="loader-ring"></div><p>A carregar…</p></div></div>
     </div>
@@ -2679,18 +2719,39 @@ html[data-theme="dark"] .disp-btn.on,html[data-theme="dark"] .disp-btn[aria-pres
         <div class="fg"><label>Login *</label><input type="text" id="eq-login" placeholder="joao.silva" autocomplete="off"></div>
         <div class="fg"><label>Nome *</label><input type="text" id="eq-nome" placeholder="João Silva"></div>
         <div class="fg"><label>Função / acesso</label>
-          <select id="eq-role">
+          <select id="eq-role" onchange="onEquipeRoleChange_()">
             <option value="STAFF">Staff — reservas</option>
             <option value="MANAGER">Manager — hotéis + reservas</option>
-            <option value="OWNER">Owner — acesso total (como AGENCE_ADMIN)</option>
+            <option value="OWNER">Owner — acesso total</option>
           </select>
         </div>
+        <div class="fg"><label>Telefone</label><input type="tel" id="eq-tel" placeholder="+351 912 345 678" autocomplete="tel"></div>
         <div class="fg"><label>Email * (reset MDP)</label><input type="email" id="eq-email" placeholder="joao@email.pt"></div>
         <div class="fg"><label>Palavra-passe *</label><input type="password" id="eq-pass" placeholder="mín. 8 caracteres" autocomplete="new-password"></div>
         <div class="fg"><label>Estado</label><select id="eq-statut"><option value="actif">✅ Ativo</option><option value="inactif">❌ Inativo</option></select></div>
         <div class="fg full-width" style="grid-column:1/-1"><label>Notas</label><textarea id="eq-notas" rows="2"></textarea></div>
+        <div class="fg full-width" style="grid-column:1/-1;padding-top:4px;border-top:1px solid var(--border)">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600">
+            <input type="checkbox" id="eq-custom-perms" onchange="toggleEquipePermsPanel_({applyDefaults:true})" style="width:16px;height:16px">
+            Personalizar permissões (detalhe)
+          </label>
+          <div style="font-size:11px;color:var(--ts);margin:6px 0 8px;line-height:1.4">Desligado = acesso da função acima. Ligado = escolher o que pode / não pode fazer.</div>
+          <div id="eq-perms-panel" style="display:none;grid-template-columns:1fr 1fr;gap:8px 14px;padding:10px 12px;background:var(--bg2,#f6f7f9);border-radius:8px;border:1px solid var(--border)">
+            <label class="eq-perm"><input type="checkbox" data-perm="VOIR_RESAS"> Ver reservas</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="CREER_RESAS"> Criar reservas</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="CONFIRMER_RESAS"> Confirmar reservas</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="MODIFIER_RESAS"> Modificar reservas</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="ANNULER_RESAS"> Anular reservas</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="VOIR_PRIX"> Ver preços</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="MODIFIER_PRIX"> Modificar preços</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="GERER_HOTELS"> Gerir hotéis / locais</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="GERER_CHAUFFEURS"> Gerir motoristas</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="GERER_EQUIPE"> Gerir equipa</label>
+            <label class="eq-perm"><input type="checkbox" data-perm="VOIR_FINANCE"> Ver balanço / finance</label>
+          </div>
+        </div>
       </div>
-      <div style="font-size:11px;color:var(--ts);margin-top:8px;line-height:1.45">O membro entra no Portal Agence com o <strong>seu login</strong> e palavra-passe. Recuperação via o email acima (mesmo fluxo que o hotel).</div>
+      <div style="font-size:11px;color:var(--ts);margin-top:8px;line-height:1.45">O membro entra neste Portal Agence 1.0 com o <strong>seu login</strong> e palavra-passe. Um email de confirmação é enviado. Recuperação via o email acima. Limite: contas ativas da equipa (ver quota).</div>
     </div>
     <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('ov-equipe')">Cancelar</button><button class="btn btn-navy" onclick="doSaveEquipe()">💾 Guardar</button></div>
   </div>
@@ -3644,7 +3705,7 @@ function updateEmailMboxPager(meta){
 // ÉTAT GLOBAL
 // ═══════════════════════════════════════════════════════════
 const S={
-  token:null,adminId:null,fullAccess:true,lang:'PT',
+  token:null,adminId:null,orgId:null,role:'OWNER',fullAccess:true,peutGererEquipe:true,maxEquipe:10,lang:'PT',
   reservas:[],agencias:[],permissions:{},prices:[],lieux:[],bilanData:null,
   selectedIds:new Set(),
   curId:null,curWaLang:'pt',curWaResa:null,curWaTel:null,curAgWaLang:'pt',
@@ -3659,8 +3720,14 @@ const S={
   // Cache TTL navigation (évite rechargement API à chaque onglet)
   _reservasAt:0,_agenciasAt:0,_pricesAt:0,_lieuxAt:0,_chauffeursAt:0,_equipeAt:0
 };
-const NAV_TTL={reservas:45000,agencias:120000,prices:120000,lieux:120000,chauffeurs:120000,equipe:120000};
+const NAV_TTL={reservas:180000,agencias:300000,prices:300000,lieux:300000,chauffeurs:300000,equipe:300000};
 function navCacheFresh_(at,ttl){ return !!(at && (Date.now()-at)<ttl); }
+function navHasRendered_(sel){
+  try{
+    const el=document.querySelector(sel);
+    return !!(el && (el.querySelector('table, .m-card, .tl-card, .empty') || (el.children&&el.children.length)));
+  }catch(e){ return false; }
+}
 
 /* Session : le rafraîchissement de la page ne déconnecte pas ; déconnexion automatique après 3 h sans activité (bouton Déconnexion inchangé). */
 const HOTEL_SESSION_IDLE_MS = 3 * 60 * 60 * 1000;
@@ -4118,12 +4185,22 @@ async function doLogin(){
     S.token=d.token;
     S.adminId=d.adminId||id;
     S.orgId=d.orgId||id;
+    S.role=String(d.role||'OWNER').toUpperCase();
     S.fullAccess=d.fullAccess!==false && d.peutGererMdpHotels!==false;
+    S.peutGererEquipe=d.peutGererEquipe!==false && (S.role==='OWNER'||S.role==='MANAGER'||!!(d.equipePermissions&&d.equipePermissions.GERER_EQUIPE));
+    S.maxEquipe=d.maxEquipe||10;
+    S.equipePerms=d.equipePermissions||equipePermsDefautClient_(S.role);
     applyOrgBranding(d.branding||{nom:d.adminNom||id});
     try{sessionStorage.setItem('nlp_org_branding',JSON.stringify(S.branding||{}));}catch(e){}
     persistHotelSessionToken(S.token);
-    try{sessionStorage.setItem('nlp_staff_admin_id',S.adminId);}catch(e){}
+    try{
+      sessionStorage.setItem('nlp_staff_admin_id',S.adminId);
+      sessionStorage.setItem('nlp_staff_role',S.role);
+      sessionStorage.setItem('nlp_org_id',S.orgId);
+      sessionStorage.setItem('nlp_staff_perms',JSON.stringify(S.equipePerms||{}));
+    }catch(e){}
     bumpHotelActivity();
+    applyStaffRoleUi_();
     showScreen('app-screen');
   }catch(e){showMsgBox('login-err',t().errConn+'\n'+e.message,'err');return;}
   finally{btn.classList.remove('loading');btn.disabled=false;}
@@ -4135,8 +4212,8 @@ async function doLogin(){
 async function doLogout(){
   try{await api({action:'deconnexionOrgAgence',adminToken:S.token});}catch(e){}
   clearHotelSessionStorage();
-  S.token=null;S.adminId=null;S.orgId=null;S.branding=null;S.fullAccess=false;S.reservas=[];S.agencias=[];
-  try{sessionStorage.removeItem('nlp_staff_admin_id');sessionStorage.removeItem('nlp_org_branding');}catch(e){}
+  S.token=null;S.adminId=null;S.orgId=null;S.branding=null;S.role='OWNER';S.fullAccess=false;S.peutGererEquipe=true;S.reservas=[];S.agencias=[];
+  try{sessionStorage.removeItem('nlp_staff_admin_id');sessionStorage.removeItem('nlp_staff_role');sessionStorage.removeItem('nlp_staff_perms');sessionStorage.removeItem('nlp_org_branding');sessionStorage.removeItem('nlp_org_id');}catch(e){}
   /* Retour identité Nhalabene par défaut */
   try{
     applyOrgBranding({nom:'Agence 1.0',logoUrl:'',iconUrl:''});
@@ -4210,14 +4287,16 @@ async function doConfirmerMDP(){
 async function loadReservas(opts){
   opts=opts||{};
   const force=!!opts.force;
+  const soft=!!opts.soft;
   if(!force && S.reservas.length && navCacheFresh_(S._reservasAt, NAV_TTL.reservas)){
+    if(soft && navHasRendered_('#tbl-wrap')) return;
     refreshStaffResaViews();
     return;
   }
   const wrap=document.getElementById('tbl-wrap');
-  if(wrap) wrap.innerHTML='<div class="loader"><div class="loader-ring"></div><p>A carregar…</p></div>';
+  if(wrap && !soft) wrap.innerHTML='<div class="loader"><div class="loader-ring"></div><p>A carregar…</p></div>';
   const pag=document.getElementById('pagination');
-  if(pag) pag.style.display='none';
+  if(pag && !soft) pag.style.display='none';
   try{
     const d=await api({action:'getTodasReservacoes',adminToken:S.token,filtres:{}},{timeoutMs:45000});
     if(!d.success){
@@ -4285,12 +4364,18 @@ async function loadAgencias(opts){
 async function loadAgenciasTab(opts){
   opts=opts||{};
   const force=!!opts.force;
+  const soft=!!opts.soft;
   const wrap=document.getElementById('ag-wrap');
   if(!force && S.agencias.length && navCacheFresh_(S._agenciasAt, NAV_TTL.agencias) && wrap && wrap.querySelector('table')){
     return;
   }
-  wrap.innerHTML='<div class="loader"><div class="loader-ring"></div><p>A carregar…</p></div>';
-  await loadAgencias({force:true});
+  const needFetch=force || !S.agencias.length || !navCacheFresh_(S._agenciasAt, NAV_TTL.agencias);
+  if(needFetch){
+    if(!(soft && wrap && wrap.querySelector('table'))){
+      wrap.innerHTML='<div class="loader"><div class="loader-ring"></div><p>A carregar…</p></div>';
+    }
+    await loadAgencias({force:true});
+  }
   if(!S.agencias.length){
     const _eo=t();wrap.innerHTML='<div class="empty"><div class="empty-icon">🏨</div><div class="empty-title">'+(_eo.agEmptyTitle||'Nenhum hotel')+'</div><div class="empty-sub">'+(_eo.agEmptySub||'Adicione um hotel via o botão ➕')+'</div></div>';
     return;
@@ -4481,12 +4566,124 @@ async function toggleChauffeurStatut(id,statut){
 }
 
 // ═══════════════════════════════════════════════════════════
-// ÉQUIPE (NOUVEAU — annuaire léger Portal Agence)
+// ÉQUIPE (annuaire Portal Agence — création complète + limites)
 // ═══════════════════════════════════════════════════════════
+function staffRole_(){ return String(S.role||'OWNER').toUpperCase(); }
+function staffPeutGererEquipe_(){
+  if(!S.token) return false;
+  if(S.peutGererEquipe===false) return false;
+  const r=staffRole_();
+  if(r==='OWNER') return true;
+  if(r==='MANAGER') return true;
+  return !!(S.equipePerms&&S.equipePerms.GERER_EQUIPE);
+}
+const EQ_PERM_KEYS=['VOIR_RESAS','CREER_RESAS','CONFIRMER_RESAS','MODIFIER_RESAS','ANNULER_RESAS','VOIR_PRIX','MODIFIER_PRIX','GERER_HOTELS','GERER_CHAUFFEURS','GERER_EQUIPE','VOIR_FINANCE'];
+function equipePermsDefautClient_(role){
+  const r=String(role||'STAFF').toUpperCase();
+  const all={}; EQ_PERM_KEYS.forEach(k=>all[k]=true);
+  if(r==='OWNER') return all;
+  if(r==='MANAGER'){ const m={...all}; m.VOIR_PRIX=false; m.MODIFIER_PRIX=false; return m; }
+  const s={}; EQ_PERM_KEYS.forEach(k=>s[k]=false);
+  s.VOIR_RESAS=s.CREER_RESAS=s.CONFIRMER_RESAS=s.MODIFIER_RESAS=s.ANNULER_RESAS=true;
+  return s;
+}
+function tabsFromEquipePerms_(role, perms){
+  const r=String(role||'OWNER').toUpperCase();
+  if(r==='OWNER') return ['reservas','upcoming','create','bilan','agencias','lieux','chauffeurs','equipe','prices','historique'];
+  const p=perms||equipePermsDefautClient_(r);
+  const tabs=[];
+  if(p.VOIR_RESAS){ tabs.push('reservas','upcoming','historique'); }
+  if(p.CREER_RESAS) tabs.push('create');
+  if(p.VOIR_FINANCE) tabs.push('bilan');
+  if(p.GERER_HOTELS){ tabs.push('agencias','lieux'); }
+  if(p.GERER_CHAUFFEURS) tabs.push('chauffeurs');
+  if(p.GERER_EQUIPE) tabs.push('equipe');
+  if(p.VOIR_PRIX||p.MODIFIER_PRIX) tabs.push('prices');
+  if(r==='MANAGER' && !tabs.length){
+    return ['reservas','upcoming','create','bilan','agencias','lieux','chauffeurs','historique'];
+  }
+  if(!tabs.length) return ['reservas','upcoming','create'];
+  return [...new Set(tabs)];
+}
+function toggleEquipePermsPanel_(opts){
+  opts=opts||{};
+  const on=!!document.getElementById('eq-custom-perms')?.checked;
+  const panel=document.getElementById('eq-perms-panel');
+  if(!panel) return;
+  panel.style.display=on?'grid':'none';
+  const role=document.getElementById('eq-role')?.value||'STAFF';
+  if(on && opts.applyDefaults) fillEquipePermsForm_(equipePermsDefautClient_(role));
+  if(on){
+    const lockOwner=role==='OWNER';
+    panel.querySelectorAll('input[data-perm]').forEach(cb=>{
+      cb.disabled=lockOwner;
+      if(lockOwner) cb.checked=true;
+    });
+  }
+}
+function onEquipeRoleChange_(){
+  const role=document.getElementById('eq-role')?.value||'STAFF';
+  const custom=document.getElementById('eq-custom-perms');
+  if(role==='OWNER' && custom){ custom.checked=false; toggleEquipePermsPanel_(); return; }
+  if(custom?.checked) fillEquipePermsForm_(equipePermsDefautClient_(role));
+}
+function fillEquipePermsForm_(perms){
+  const p=perms||{};
+  document.querySelectorAll('#eq-perms-panel input[data-perm]').forEach(cb=>{
+    cb.checked=!!p[cb.getAttribute('data-perm')];
+  });
+}
+function readEquipePermsForm_(){
+  const out={};
+  EQ_PERM_KEYS.forEach(k=>out[k]=false);
+  document.querySelectorAll('#eq-perms-panel input[data-perm]').forEach(cb=>{
+    out[cb.getAttribute('data-perm')]=!!cb.checked;
+  });
+  return out;
+}
+function resetEquipePermsUi_(custom, perms, role){
+  const cb=document.getElementById('eq-custom-perms');
+  if(cb) cb.checked=!!custom && role!=='OWNER';
+  fillEquipePermsForm_(perms||equipePermsDefautClient_(role||'STAFF'));
+  toggleEquipePermsPanel_();
+}
+/** Visibilidade onglets segundo role + permissões detalhadas */
+function applyStaffRoleUi_(){
+  const r=staffRole_();
+  const ok=tabsFromEquipePerms_(r, S.equipePerms);
+  const setVis=(sel,show)=>{
+    document.querySelectorAll(sel).forEach(el=>{ el.style.display=show?'':'none'; });
+  };
+  ['reservas','upcoming','create','bilan','agencias','lieux','chauffeurs','equipe','prices','historique'].forEach(tab=>{
+    const show=ok.indexOf(tab)>=0;
+    setVis('#tab-'+tab+', #nav-d-'+tab, show);
+  });
+  const badge=document.getElementById('lbl-admin-role');
+  if(badge){
+    const labels={OWNER:'Owner · total',MANAGER:'Manager',STAFF:'Staff'};
+    badge.textContent=labels[r]||r;
+  }
+  const btnAdd=document.getElementById('btn-eq-add');
+  if(btnAdd) btnAdd.style.display=staffPeutGererEquipe_()?'':'none';
+  const cur=document.querySelector('.tab.active')||document.querySelector('.section.on');
+  let curName='';
+  if(cur){
+    const id=cur.id||'';
+    if(id.indexOf('tab-')===0) curName=id.slice(4);
+    else if(id.indexOf('section-')===0) curName=id.slice(8);
+  }
+  if(curName && ok.indexOf(curName)<0){
+    try{ showTab(ok[0]||'reservas'); }catch(e){}
+  }
+}
 async function loadEquipeTab(opts){
   opts=opts||{};
   const force=!!opts.force;
   const wrap=document.getElementById('eq-wrap');
+  if(!staffPeutGererEquipe_()){
+    wrap.innerHTML='<div class="empty"><div class="empty-icon">🔒</div><div class="empty-title">Acesso restrito</div><div class="empty-sub">Apenas OWNER ou MANAGER podem gerir a equipa.</div></div>';
+    return;
+  }
   if(!force && S.equipe.length && navCacheFresh_(S._equipeAt, NAV_TTL.equipe) && wrap && wrap.querySelector('table')){
     return;
   }
@@ -4495,29 +4692,47 @@ async function loadEquipeTab(opts){
     const d=await api({action:'listerEquipe',adminToken:S.token});
     if(!d.success){wrap.innerHTML=`<div class="empty"><div class="empty-icon">👥</div><div class="empty-title">Erro</div><div class="empty-sub">${d.error||''}</div></div>`;return;}
     S.equipe=d.membres||[];
+    S.maxEquipe=d.limite||S.maxEquipe||10;
     S._equipeAt=Date.now();
+    const actifs=d.actifs!=null?d.actifs:S.equipe.filter(m=>m.statut==='actif').length;
+    const lim=S.maxEquipe;
+    const q=document.getElementById('eq-quota');
+    if(q) q.textContent=actifs+' / '+lim+' ativas';
+    const hl=document.getElementById('eq-hint-limite');
+    if(hl) hl.textContent=String(lim);
+    const btnAdd=document.getElementById('btn-eq-add');
+    if(btnAdd){
+      const can=staffPeutGererEquipe_() && actifs<lim;
+      btnAdd.disabled=!can;
+      btnAdd.title=can?'':'Limite de equipa atingida';
+      btnAdd.style.opacity=can?'1':'.45';
+    }
     if(!S.equipe.length){
-      wrap.innerHTML='<div class="empty"><div class="empty-icon">👥</div><div class="empty-title">Nenhum membro</div><div class="empty-sub">Adicionar via botão ➕</div></div>';
+      wrap.innerHTML='<div class="empty"><div class="empty-icon">👥</div><div class="empty-title">Nenhum membro</div><div class="empty-sub">Adicionar via botão ➕ (máx. '+lim+' ativas)</div></div>';
       return;
     }
     const frag=document.createDocumentFragment();
     const table=document.createElement('table');
     const thead=document.createElement('thead');
-    thead.innerHTML='<tr><th>Login</th><th>Nome</th><th>Função</th><th>Email</th><th>Estado</th><th>Ações</th></tr>';
+    thead.innerHTML='<tr><th>Login</th><th>Nome</th><th>Telefone</th><th>Função</th><th>Email</th><th>Estado</th><th>Ações</th></tr>';
     table.appendChild(thead);
     const tbody=document.createElement('tbody');
+    const actorIsManager=staffRole_()==='MANAGER';
     S.equipe.forEach(m=>{
       const tr=document.createElement('tr');
       const roleLbl={OWNER:'Owner · total',MANAGER:'Manager',STAFF:'Staff'}[m.role]||(m.role||'STAFF');
+      const canEdit=!actorIsManager||m.role==='STAFF';
+      const acessoHint=m.customPerms?' · detalhe':'';
       tr.innerHTML=`
         <td class="mono">${m.login}</td>
         <td class="bold">${m.nome}</td>
-        <td style="font-size:12px">${roleLbl}</td>
+        <td style="font-size:12px">${m.telefone||'—'}</td>
+        <td style="font-size:12px">${roleLbl}${acessoHint}</td>
         <td style="font-size:12px">${m.email||'—'}</td>
         <td><span class="badge ${m.statut==='actif'?'b-conf':'b-canc'}">${m.statut==='actif'?'● Ativo':'○ Inativo'}</span></td>
         <td style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn btn-gold btn-sm" onclick="openEditEquipeModal('${m.login}')">✏️ Editar</button>
-          ${m.statut==='actif'?`<button class="btn btn-ghost btn-sm" onclick="toggleEquipeStatut('${m.login}','inactif')">🚫 Desativar</button>`:`<button class="btn btn-ghost btn-sm" onclick="toggleEquipeStatut('${m.login}','actif')">✅ Reativar</button>`}
+          ${canEdit?`<button class="btn btn-gold btn-sm" onclick="openEditEquipeModal('${m.login}')">✏️ Editar</button>`:''}
+          ${canEdit?(m.statut==='actif'?`<button class="btn btn-ghost btn-sm" onclick="toggleEquipeStatut('${m.login}','inactif')">🚫 Desativar</button>`:`<button class="btn btn-ghost btn-sm" onclick="toggleEquipeStatut('${m.login}','actif')">✅ Reativar</button>`):'<span style="font-size:11px;color:var(--ts)">—</span>'}
         </td>
       `;
       tbody.appendChild(tr);
@@ -4528,33 +4743,54 @@ async function loadEquipeTab(opts){
     wrap.appendChild(frag);
   }catch(e){wrap.innerHTML=`<div class="empty"><div class="empty-icon">🔌</div><div class="empty-title">${t().errConn}</div><div class="empty-sub">${e.message}</div></div>`;}
 }
+function syncEquipeRoleOptions_(){
+  const sel=document.getElementById('eq-role');
+  if(!sel) return;
+  const managerOnly=staffRole_()==='MANAGER';
+  Array.from(sel.options).forEach(opt=>{
+    if(managerOnly){ opt.hidden=opt.value!=='STAFF'; opt.disabled=opt.value!=='STAFF'; }
+    else{ opt.hidden=false; opt.disabled=false; }
+  });
+  if(managerOnly) sel.value='STAFF';
+}
 function openAddEquipeModal(){
+  if(!staffPeutGererEquipe_()){toast('Sem permissão para gerir a equipa.','warn');return;}
+  const actifs=(S.equipe||[]).filter(m=>m.statut==='actif').length;
+  if(actifs>=(S.maxEquipe||10)){toast('Limite de equipa atingida ('+(S.maxEquipe||10)+').','warn');return;}
   S.curEquipeLogin=null;
   document.getElementById('eq-modal-ttl').textContent='➕ Adicionar Membro';
   document.getElementById('eq-msg').className='modal-msg';
   document.getElementById('eq-login').value='';document.getElementById('eq-login').disabled=false;
   document.getElementById('eq-nome').value='';
+  syncEquipeRoleOptions_();
   document.getElementById('eq-role').value='STAFF';
+  document.getElementById('eq-tel').value='';
   document.getElementById('eq-email').value='';
   document.getElementById('eq-pass').value='';
   document.getElementById('eq-pass').placeholder='mín. 8 caracteres';
   document.getElementById('eq-statut').value='actif';
   document.getElementById('eq-notas').value='';
+  resetEquipePermsUi_(false, equipePermsDefautClient_('STAFF'), 'STAFF');
   openModal('ov-equipe');
 }
 function openEditEquipeModal(login){
+  if(!staffPeutGererEquipe_()){toast('Sem permissão.','warn');return;}
   const m=S.equipe.find(x=>x.login===login);if(!m)return;
+  if(staffRole_()==='MANAGER'&&m.role!=='STAFF'){toast('MANAGER só edita contas STAFF.','warn');return;}
   S.curEquipeLogin=login;
   document.getElementById('eq-modal-ttl').textContent='✏️ Editar Membro';
   document.getElementById('eq-msg').className='modal-msg';
   document.getElementById('eq-login').value=m.login;document.getElementById('eq-login').disabled=true;
   document.getElementById('eq-nome').value=m.nome||'';
+  syncEquipeRoleOptions_();
   document.getElementById('eq-role').value=m.role||'STAFF';
+  document.getElementById('eq-tel').value=m.telefone||'';
   document.getElementById('eq-email').value=m.email||'';
   document.getElementById('eq-pass').value='';
   document.getElementById('eq-pass').placeholder='Deixar vazio = manter atual';
   document.getElementById('eq-statut').value=m.statut||'actif';
   document.getElementById('eq-notas').value=m.notas||'';
+  resetEquipePermsUi_(!!m.customPerms, m.permissions||equipePermsDefautClient_(m.role), m.role||'STAFF');
   openModal('ov-equipe');
 }
 async function doSaveEquipe(){
@@ -4564,20 +4800,30 @@ async function doSaveEquipe(){
   const pass=document.getElementById('eq-pass').value.trim();
   const isEdit=!!S.curEquipeLogin;
   if(!login||!nome){showMsgEl('eq-msg','❌ Login e nome obrigatórios','error');return;}
+  if(!/^[a-zA-Z0-9._\-]{3,32}$/.test(login)){showMsgEl('eq-msg','❌ Login: 3–32 caracteres (letras, números, . _ -)','error');return;}
   if(!email){showMsgEl('eq-msg','❌ Email obrigatório (recuperação MDP)','error');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showMsgEl('eq-msg','❌ Email inválido','error');return;}
   if(!isEdit && pass.length<8){showMsgEl('eq-msg','❌ Palavra-passe mín. 8 caracteres','error');return;}
   if(isEdit && pass && pass.length<8){showMsgEl('eq-msg','❌ Nova palavra-passe mín. 8 caracteres','error');return;}
   try{
+    const role=document.getElementById('eq-role').value;
+    const custom=!!document.getElementById('eq-custom-perms')?.checked && role!=='OWNER';
     const payload={
       action:'salvarMembreEquipe',adminToken:S.token,
-      login, nome, role:document.getElementById('eq-role').value,
+      login, nome, role,
+      telefone:document.getElementById('eq-tel').value.trim(),
       email,
       statut:document.getElementById('eq-statut').value,
-      notas:document.getElementById('eq-notas').value.trim()
+      notas:document.getElementById('eq-notas').value.trim(),
+      customPerms:custom,
+      permissions:custom?readEquipePermsForm_():undefined
     };
     if(pass) payload.motDePasse=pass;
     const d=await api(payload);
-    if(d.success){toast('👥 Membro guardado','success');closeModal('ov-equipe');loadEquipeTab({force:true});}
+    if(d.success){
+      toast(isEdit?'👥 Membro atualizado':'👥 Conta criada — email enviado','success');
+      closeModal('ov-equipe');loadEquipeTab({force:true});
+    }
     else{if(d.sessionExpired)doLogout();showMsgEl('eq-msg','❌ '+d.error,'error');}
   }catch(e){showMsgEl('eq-msg','❌ '+e.message,'error');}
 }
@@ -8024,8 +8270,10 @@ function formatPermsBadges(p){
 function staffPeutGererMdpHotels_(){
   if(!S.token) return false;
   if(S.fullAccess===false) return false;
+  const r=staffRole_();
+  if(r==='OWNER') return true;
   const id=S.adminId||'';
-  return !id || id==='AGENCE_ADMIN' || id==='HOTEL_ADMIN';
+  return id==='AGENCE_ADMIN' || id==='HOTEL_ADMIN' || (!!S.orgId && id===S.orgId);
 }
 function toggleHotelPassCell(btn){
   if(!staffPeutGererMdpHotels_()){toast('Acesso completo Agence necessário para ver a palavra-passe.','warn');return;}
@@ -8260,6 +8508,7 @@ function renderUpcoming(){
     if(!groups[k])groups[k]=[];
     groups[k].push(r);
   });
+  const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
   let html='';
   Object.keys(groups).sort().forEach(dateKey=>{
     const d=parseDate(dateKey);
@@ -8274,22 +8523,32 @@ function renderUpcoming(){
       const isUrgent=diffDays<=1&&r.statut==='pendente';
       const ico=dirIco[r.origineType]||'🚗';
       const agLabel=r.agencyId?(S.agencias.find(a=>a.id===r.agencyId)?.nom||r.agencyId):'';
-      html+=`<div class="tl-card ${isUrgent?'urgent':isToday?'today':''}" onclick="openDetail('${r.id}')">
-        <div><div class="tl-time">${(r.heureTransfer||'—').toString().slice(0,5)}</div><div class="tl-time-lbl">h</div></div>
+      const tel=String(r.clientTel||r.telefone||r.tel||'').trim();
+      const heure=(r.heureTransfer||'—').toString().slice(0,5);
+      const dep=esc(r.pointDepart||'—');
+      const dest=esc(r.destination||'—');
+      html+=`<div class="tl-card ${isUrgent?'urgent':isToday?'today':''}" onclick="openDetail('${esc(r.id)}')">
+        <div class="tl-time-col"><div class="tl-time">${esc(heure)}</div><div class="tl-time-lbl">${isToday?(T2.today||'Hoje'):'h'}</div></div>
         <div class="tl-divider"></div>
         <div class="tl-body">
-          <div class="tl-ref">${r.id}</div>
-          <div class="tl-client">${r.clientNom||'—'}</div>
-          <div class="tl-route">${ico} ${r.pointDepart||'—'} → ${r.destination||'—'}</div>
+          <div class="tl-head">
+            <div class="tl-ref">${esc(r.id)}</div>
+            <div class="tl-acts">${badge(r.statut)}</div>
+          </div>
+          <div class="tl-client">${esc(r.clientNom||'—')}</div>
+          <div class="tl-route tl-route-block">
+            <span class="tl-route-from">${ico} ${dep}</span>
+            <span class="tl-route-to">→ ${dest}</span>
+          </div>
           <div class="tl-meta">
-            <span>👤 ${r.personnes||'—'}</span>
-            <span>🧳 ${r.malas||'0'}</span>
-            ${r.numVol?`<span>✈️ ${r.numVol}</span>`:''}
-            ${agLabel?`<span>🏢 ${agLabel}</span>`:''}
-            <span>💶 ${r.prixFinal?r.prixFinal+' €':'—'}</span>
+            <span class="tl-chip">👤 ${esc(r.personnes||'—')}</span>
+            <span class="tl-chip">🧳 ${esc(r.malas||'0')}</span>
+            ${r.numVol?`<span class="tl-chip">✈️ ${esc(r.numVol)}</span>`:''}
+            ${tel?`<span class="tl-chip tl-chip-tel">📞 ${esc(tel)}</span>`:''}
+            ${agLabel?`<span class="tl-chip">🏢 ${esc(agLabel)}</span>`:''}
+            <span class="tl-chip">💶 ${r.prixFinal?esc(r.prixFinal)+' €':'—'}</span>
           </div>
         </div>
-        <div class="tl-acts">${badge(r.statut)}</div>
       </div>`;
     });
     html+=`</div></div>`;
@@ -8387,47 +8646,68 @@ function toggleNavDrawer(){
 
 function showTab(name){
   const sameTab=S.curTab===name;
-  S.curTab=name;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('tab-'+name)?.classList.add('active');
-  document.getElementById('section-'+name)?.classList.add('active');
-  document.querySelectorAll('.nav-drawer-tab').forEach(el=>el.classList.toggle('active',el.getAttribute('data-tab')===name));
-  document.querySelectorAll('#agence-bottom-nav .bn-item').forEach(el=>{
-    const t=el.getAttribute('data-tab');
-    const primary=['reservas','upcoming','create','agencias'];
-    el.classList.toggle('active', t===name || (t==='more' && !primary.includes(name)));
-  });
-  const app=document.getElementById('app-screen');
-  if(app)app.classList.toggle('email-focus', name==='email');
-  closeNavDrawer();
-  if(name==='reservas')loadReservas();
-  else if(name==='upcoming'){ if(S.reservas.length)renderUpcoming(); else loadReservas(); }
-  else if(name==='agencias')loadAgenciasTab();
-  else if(name==='lieux')loadLieuxTab();
-  else if(name==='chauffeurs')loadChauffeursTab();
-  else if(name==='equipe')loadEquipeTab();
-  else if(name==='prices')loadPrices();
-  else if(name==='create'){
-    Promise.all([
-      loadPrices({renderUi:false}),
-      loadLieuxForCreate(),
-      loadChauffeurs()
-    ]).then(()=>{
-      fillCrChauffeurSelect_();
-      updateCrSenseUi_();
-      setTimeout(()=>{
-        try{
-          if(!isCrRouteMapOpen_()) return;
-          const inst=_routeMapInst.cr;
-          if(inst&&inst.map) inst.map.invalidateSize();
-          if(!sameTab) scheduleCrRouteMap();
-        }catch(e){}
-      },80);
+  if(!sameTab){
+    const prevSec=document.querySelector('.section.active');
+    if(prevSec) prevSec.classList.remove('active');
+    const prevTab=document.querySelector('.tab.active');
+    if(prevTab) prevTab.classList.remove('active');
+    document.getElementById('tab-'+name)?.classList.add('active');
+    document.getElementById('section-'+name)?.classList.add('active');
+    document.querySelectorAll('.nav-drawer-tab').forEach(el=>el.classList.toggle('active',el.getAttribute('data-tab')===name));
+    document.querySelectorAll('#agence-bottom-nav .bn-item').forEach(el=>{
+      const t=el.getAttribute('data-tab');
+      const primary=['reservas','upcoming','create','agencias'];
+      el.classList.toggle('active', t===name || (t==='more' && !primary.includes(name)));
     });
+    const app=document.getElementById('app-screen');
+    if(app)app.classList.toggle('email-focus', name==='email');
   }
-  else if(name==='email'){showTab('reservas');return;}
-  else if(name==='historique'){S.hiPage=1;loadHistoriqueTab();}
+  S.curTab=name;
+  closeNavDrawer();
+  if(name==='email'){showTab('reservas');return;}
+  if(sameTab && name!=='create') return;
+
+  const run=()=>{
+    if(name==='reservas'){
+      loadReservas({soft:true});
+    }else if(name==='upcoming'){
+      if(S.reservas.length){
+        if(!sameTab) renderUpcoming();
+      }else loadReservas({soft:true});
+    }else if(name==='agencias'){
+      loadAgenciasTab({soft:true});
+    }else if(name==='lieux'){
+      loadLieuxTab({soft:true});
+    }else if(name==='chauffeurs'){
+      loadChauffeursTab({soft:true});
+    }else if(name==='equipe'){
+      loadEquipeTab({soft:true});
+    }else if(name==='prices'){
+      loadPrices({soft:true});
+    }else if(name==='create'){
+      const jobs=[];
+      if(!S.prices.length || !navCacheFresh_(S._pricesAt, NAV_TTL.prices)) jobs.push(loadPrices({renderUi:false}));
+      if(!S.lieux.length || !navCacheFresh_(S._lieuxAt, NAV_TTL.lieux)) jobs.push(loadLieuxForCreate());
+      if(!S.chauffeurs.length || !navCacheFresh_(S._chauffeursAt, NAV_TTL.chauffeurs)) jobs.push(loadChauffeurs());
+      Promise.all(jobs).then(()=>{
+        fillCrChauffeurSelect_();
+        updateCrSenseUi_();
+        if(sameTab) return;
+        setTimeout(()=>{
+          try{
+            if(!isCrRouteMapOpen_()) return;
+            const inst=_routeMapInst.cr;
+            if(inst&&inst.map) inst.map.invalidateSize();
+            scheduleCrRouteMap();
+          }catch(e){}
+        },40);
+      });
+    }else if(name==='historique'){
+      if(!sameTab){ S.hiPage=1; loadHistoriqueTab(); }
+    }
+  };
+  if(typeof requestAnimationFrame==='function') requestAnimationFrame(()=>setTimeout(run,0));
+  else setTimeout(run,0);
 }
 
 
@@ -9235,14 +9515,21 @@ document.addEventListener('keydown',e=>{
     } else {
       S.token = tok;
       try { S.adminId = sessionStorage.getItem('nlp_staff_admin_id') || ''; } catch (e) { S.adminId = ''; }
-      S.orgId = S.adminId;
-      S.fullAccess = true;
+      try { S.role = sessionStorage.getItem('nlp_staff_role') || 'OWNER'; } catch (e) { S.role = 'OWNER'; }
+      try { S.orgId = sessionStorage.getItem('nlp_org_id') || S.adminId; } catch (e) { S.orgId = S.adminId; }
+      try {
+        const pp = sessionStorage.getItem('nlp_staff_perms');
+        S.equipePerms = pp ? JSON.parse(pp) : equipePermsDefautClient_(S.role);
+      } catch (e) { S.equipePerms = equipePermsDefautClient_(S.role); }
+      S.fullAccess = S.role === 'OWNER' || (!!S.orgId && S.adminId === S.orgId);
+      S.peutGererEquipe = S.role === 'OWNER' || S.role === 'MANAGER' || !!(S.equipePerms&&S.equipePerms.GERER_EQUIPE);
       try {
         const rawB = sessionStorage.getItem('nlp_org_branding');
         if (rawB) applyOrgBranding(JSON.parse(rawB));
       } catch (e) {}
       try { sessionStorage.setItem(HOTEL_TOK_KEY_SS, tok); } catch (e) {}
       bumpHotelActivity();
+      applyStaffRoleUi_();
       showScreen('app-screen');
       Promise.all([loadAgencias(),loadReservas(),loadPrices()]).catch(e=>dbg('err','Init error: '+e.message));
     }
